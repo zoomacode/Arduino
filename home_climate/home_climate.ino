@@ -8,10 +8,16 @@
 LiquidCrystal lcd(10);
 
 void setup() {
+  Serial.begin(9600);
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
+  
   // set up the LCD's number of columns and rows: 
   lcd.begin(16, 2);
   // Print a message to the LCD.
-  lcd.print("hello, world!");
+  lcd.print("Nastya!");
+  Serial.print("Hello!!!\n");
 }
 
 void loop() {
@@ -19,6 +25,14 @@ void loop() {
   // (note: line 1 is the second row, since counting begins with 0):
   lcd.setCursor(0, 1);
   // print the number of seconds since reset:
-  lcd.print(millis()/1000);
+  int s = millis()/1000;
+  static int prev_s = 0;
+  if (s != prev_s) {
+    lcd.print(millis()/1000);
+    Serial.print(millis()/1000);
+    Serial.print("\n");
+  }
+  prev_s = s;
+  delay(500);
 }
 
